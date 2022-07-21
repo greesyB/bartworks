@@ -645,15 +645,24 @@ public class GT_TileEntity_ExtremeIndustrialGreenhouse extends GT_MetaTileEntity
                 return;
             }
             Item i = input.getItem();
-            if(!(i instanceof IPlantable))
-                return;
             Block b = null;
-            if (i instanceof ItemSeeds)
-                b = ((ItemSeeds) i).getPlant(world, 0, 0, 0);
-            else if (i instanceof ItemSeedFood)
-                b = ((ItemSeedFood) i).getPlant(world, 0, 0, 0);
-
-            if (!(b instanceof BlockBush))
+            if(i instanceof IPlantable) {
+                if (i instanceof ItemSeeds)
+                    b = ((ItemSeeds) i).getPlant(world, 0, 0, 0);
+                else if (i instanceof ItemSeedFood)
+                    b = ((ItemSeedFood) i).getPlant(world, 0, 0, 0);
+            }
+            else {
+                if(i == Items.reeds)
+                    b = Blocks.reeds;
+                else {
+                    b = Block.getBlockFromItem(i);
+                    if(!(b == Blocks.cactus))
+                        return;
+                }
+                needsreplanting = false;
+            }
+            if (!(b instanceof IPlantable))
                 return;
             GameRegistry.UniqueIdentifier u = GameRegistry.findUniqueIdentifierFor(i);
             if(u != null && Objects.equals(u.modId, "Natura"))
