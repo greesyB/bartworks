@@ -52,6 +52,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -60,6 +61,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -634,10 +636,15 @@ public class GT_TileEntity_ExtremeIndustrialGreenhouse extends GT_MetaTileEntity
                 GreenHouseSlotIC2(tileEntity, world, input);
                 return;
             }
-            if (!(input.getItem() instanceof ItemSeeds)) {
+            Item i = input.getItem();
+            if(!(i instanceof IPlantable))
                 return;
-            }
-            Block b = ((ItemSeeds) input.getItem()).getPlant(world, 0, 0, 0);
+            Block b = null;
+            if (i instanceof ItemSeeds)
+                b = ((ItemSeeds) input.getItem()).getPlant(world, 0, 0, 0);
+            else if (i instanceof ItemSeedFood)
+                b = ((ItemSeedFood) input.getItem()).getPlant(world, 0, 0, 0);
+
             if (!(b instanceof IGrowable))
                 return;
             GameRegistry.UniqueIdentifier u = GameRegistry.findUniqueIdentifierFor(input.getItem());
