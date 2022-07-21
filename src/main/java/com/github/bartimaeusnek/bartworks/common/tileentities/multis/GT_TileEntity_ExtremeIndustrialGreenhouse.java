@@ -45,7 +45,7 @@ import ic2.api.crops.Crops;
 import ic2.core.Ic2Items;
 import ic2.core.crop.TileEntityCrop;
 import net.minecraft.block.Block;
-import net.minecraft.block.IGrowable;
+import net.minecraft.block.BlockBush;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -641,13 +641,13 @@ public class GT_TileEntity_ExtremeIndustrialGreenhouse extends GT_MetaTileEntity
                 return;
             Block b = null;
             if (i instanceof ItemSeeds)
-                b = ((ItemSeeds) input.getItem()).getPlant(world, 0, 0, 0);
+                b = ((ItemSeeds) i).getPlant(world, 0, 0, 0);
             else if (i instanceof ItemSeedFood)
-                b = ((ItemSeedFood) input.getItem()).getPlant(world, 0, 0, 0);
+                b = ((ItemSeedFood) i).getPlant(world, 0, 0, 0);
 
-            if (!(b instanceof IGrowable))
+            if (!(b instanceof BlockBush))
                 return;
-            GameRegistry.UniqueIdentifier u = GameRegistry.findUniqueIdentifierFor(input.getItem());
+            GameRegistry.UniqueIdentifier u = GameRegistry.findUniqueIdentifierFor(i);
             if(u != null && Objects.equals(u.modId, "Natura"))
                 optimalgrowth = 8;
             crop = b;
